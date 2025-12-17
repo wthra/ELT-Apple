@@ -1,0 +1,12 @@
+minio
+pandas
+duckdb
+pandera
+s3fs
+textblob
+flask
+matplotlib
+seaborn
+streamlit
+plotly
+yfinance
