@@ -1,29 +1,50 @@
-🍎 Apple (AAPL) Market Sentiment Pipeline
-Automated Data Engineering Project: วิเคราะห์ความสัมพันธ์ระหว่างข่าวสาร (Sentiment) และราคาหุ้นผ่านระบบ ELT Pipeline อัตโนมัติ
+# 🍏 Apple Market Pulse: Sentiment-Driven ELT Engine
 
-โปรเจกต์นี้สาธิตการสร้าง Modern Data Stack บนเครื่อง Local โดยจำลองระบบ Data Lakehouse ขนาดย่อม เพื่อรวบรวมข้อมูลราคาหุ้นจาก Yahoo Finance และข่าวสาร นำมาประมวลผลหาค่า Sentiment (NLP) และจัดเก็บลง Warehouse เพื่อแสดงผลผ่าน Dashboard
+> **A containerized data platform** that correlates financial market trends with media sentiment using a modern local data stack.
 
+โปรเจกต์นี้คือระบบ Data Engineering แบบครบวงจร (End-to-End) ที่ถูกออกแบบมาเพื่อดึงข้อมูลราคาหุ้น AAPL และข่าวสาร นำมาประมวลผลหาความสัมพันธ์ (Correlation) และตรวจสอบคุณภาพข้อมูลอัตโนมัติ พร้อมรองรับการแสดงผลผ่าน Interactive Dashboard
 
-Orchestrator	🍃 Apache Airflow	ควบคุม Workflow และตั้งเวลาทำงาน (Daily Schedule)
-Storage	🪣 MinIO	S3-Compatible Object Storage สำหรับทำ Data Lake
-Compute	🦆 DuckDB	In-process OLAP database สำหรับประมวลผล SQL ความเร็วสูง
-Transformation	🐼 Pandas / TextBlob	Python libraries สำหรับ Data Manipulation และ NLP
-Quality	✅ Pandera	ตรวจสอบ Schema และคุณภาพข้อมูล (Data Validation)
-Frontend	📊 Streamlit	Interactive Dashboard สำหรับดูผลลัพธ์ Real-time
-Container	🐳 Docker	จัดการ Environment ทั้งหมดผ่าน Docker Compose
+![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=flat-square&logo=python&logoColor=white)
+![Airflow](https://img.shields.io/badge/Apache%20Airflow-Orchestration-017CEE?style=flat-square&logo=apache-airflow&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Containerization-2496ED?style=flat-square&logo=docker&logoColor=white)
+![MinIO](https://img.shields.io/badge/MinIO-S3%20Storage-C72C48?style=flat-square&logo=minio&logoColor=white)
 
+---
 
+## ⚡ System Capabilities
 
+จุดเด่นของระบบที่ถูกพัฒนาขึ้น:
 
-⚙️ How it Works (System Workflow)ระบบทำงานแบบ ELT (Extract - Load - Transform) โดยมีลำดับการทำงานดังนี้:Ingest: Airflow สั่งดึงข้อมูลราคาหุ้นล่าสุด (Real-time) และโหลดไฟล์ข่าวเข้าสู่ MinIO (Raw Bucket)Process: สคริปต์ Python ดึงข้อมูลดิบมาทำความสะอาด และใช้ TextBlob ให้คะแนนความรู้สึกของข่าว (Sentiment Score: -1 ถึง +1)Validate: ตรวจสอบความถูกต้องด้วย Pandera (เช่น ราคาต้องไม่ติดลบ)Warehouse: บันทึกข้อมูลที่ผ่านการตรวจสอบแล้วลง DuckDB เพื่อเตรียม QueryVisualize: API และ Dashboard ดึงข้อมูลจาก DuckDB ไปแสดงผล🚀 Quick Start Guideเริ่มต้นใช้งานระบบภายใน 3 ขั้นตอน:1. Clone & Setupเตรียม Environment และติดตั้ง Library ที่จำเป็นBashgit clone <your-repo-url>
-cd <project-folder>
-pip install -r requirements.txt
-2. Launch Infrastructureรันคำสั่ง Docker Compose เพื่อสร้าง Container ของ Airflow, MinIO และ Postgres (ระบบจะสร้าง Image ใหม่ที่มี Library ครบถ้วน)Bashdocker-compose up -d --build
-Note: รอสักครู่เพื่อให้ Airflow Webserver เริ่มทำงานสมบูรณ์3. Run Pipeline & Dashboardคุณสามารถควบคุมระบบได้ 2 ช่องทาง:Option A: ผ่าน Airflow UIเข้าเว็บ http://localhost:8080 (Log in: admin/admin)เปิดใช้งาน DAG: aapl_elt_pipelineOption B: ผ่าน Dashboard (แนะนำ)รันคำสั่ง:Bashstreamlit run dashboard.py
-กดปุ่ม "🔄 Run Pipeline" บนหน้าเว็บเพื่อดึงข้อมูลล่าสุดทันที🔌 API Endpointsมี Flask API ให้บริการสำหรับดึงข้อมูลไปใช้ต่อ (python api.py):MethodEndpointDescriptionGET/api/v1/stock_summaryข้อมูลสรุปหุ้นย้อนหลัง 7 วันGET/api/v1/sentiment_vs_priceข้อมูล Correlation ทั้งหมดสำหรับนำไปพลอตกราฟ📂 Repository LayoutPlaintext.
-├── dags/               # Airflow Scripts (DAGs & Pipeline Logic)
-├── data/               # Local Data Mapping (Raw, Processed, DB)
+* **⏱️ Automated Ingestion:** ท่อส่งข้อมูล (Pipeline) ทำงานอัตโนมัติทุกวันเวลา 01:00 น. ผ่าน Airflow
+* **🧠 NLP Processing:** วิเคราะห์อารมณ์ของข่าว (Sentiment Analysis) ด้วย TextBlob Library
+* **🛡️ Quality Gate:** มีระบบป้องกันข้อมูลผิดพลาด (Data Validation) ด้วย Pandera ก่อนบันทึกลงฐานข้อมูล
+* **🦆 High-Speed SQL:** ใช้ DuckDB เป็น Data Warehouse เพื่อการเรียกดูข้อมูลที่รวดเร็ว (OLAP)
+* **📉 Interactive UI:** หน้า Dashboard สามารถ Filter ช่วงเวลาและสั่งรัน Pipeline ได้ทันที
+
+---
+
+## 🛠️ Technology Stack
+
+| Domain | Tool | Role in Project |
+| :--- | :--- | :--- |
+| **Orchestrator** | 🌪️ **Apache Airflow** | ควบคุม Workflow และจัดการ Task Dependencies |
+| **Storage** | 🗄️ **MinIO** | Object Storage (S3 API) สำหรับเก็บ Raw Data & Parquet |
+| **Processing** | 🐼 **Pandas / DuckDB** | แปลงข้อมูล (Transform) และจัดทำ Aggregation |
+| **Validation** | 🚦 **Pandera** | ตรวจสอบ Schema และ Data Integrity |
+| **Serving** | 🔌 **Flask API** | REST Endpoint สำหรับส่งข้อมูล JSON |
+| **Frontend** | 🖥️ **Streamlit** | Visualization Dashboard สำหรับ User |
+
+---
+
+## 📂 Repository Map
+
+โครงสร้างไฟล์ภายในโปรเจกต์:
+
+```text
+.
+├── dags/               # Airflow Scripts (ETL Logic definition)
+├── data/               # Local Storage Mapping (Simulated Data Lake)
 ├── docker-compose.yaml # Infrastructure Configuration
-├── dashboard.py        # User Interface (Streamlit)
-├── api.py              # Backend API (Flask)
+├── dashboard.py        # Streamlit Application
+├── api.py              # Backend Service
 └── requirements.txt    # Project Dependencies
