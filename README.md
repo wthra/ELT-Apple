@@ -48,3 +48,44 @@
 ├── dashboard.py        # Streamlit Application
 ├── api.py              # Backend Service
 └── requirements.txt    # Project Dependencies
+
+
+
+
+🚦 Deployment Guide
+ขั้นตอนการติดตั้งและเริ่มใช้งานระบบ:
+
+1. Environment Setup
+Clone โปรเจกต์และเตรียม dependencies สำหรับรัน Dashboard บนเครื่อง local
+
+Bash
+
+git clone <your-repo-url>
+pip install -r requirements.txt
+2. Ignite Infrastructure
+เริ่มการทำงานของ Services (Airflow, MinIO, Postgres) ด้วย Docker Compose
+
+Bash
+
+docker-compose up -d --build
+3. Execution & Monitoring
+คุณสามารถควบคุมระบบได้ 2 ช่องทาง:
+
+Option A: Streamlit Dashboard (Recommended) สั่งรัน Pipeline และดูผลลัพธ์ผ่านหน้าเว็บที่สวยงาม
+
+Bash
+
+streamlit run dashboard.py
+กดปุ่ม "🔄 Run Pipeline" บนแถบด้านซ้ายเพื่อดึงข้อมูลล่าสุด
+
+Option B: Airflow Console เข้าจัดการ DAG ที่ http://localhost:8080 (admin/admin) และเปิดสวิตช์ DAG aapl_elt_pipeline
+
+4. API Consumption
+หากต้องการดึงข้อมูลไปใช้ต่อ สามารถเรียกผ่าน Flask API:
+
+Bash
+
+python api.py
+Summary Endpoint: GET /api/v1/stock_summary
+
+Analysis Endpoint: GET /api/v1/sentiment_vs_price
