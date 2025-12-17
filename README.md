@@ -35,23 +35,6 @@
 | **Frontend** | 🖥️ **Streamlit** | Visualization Dashboard สำหรับ User |
 
 ---
-
-## 📂 Repository Map
-
-โครงสร้างไฟล์ภายในโปรเจกต์:
-
-```text
-.
-├── dags/               # Airflow Scripts (ETL Logic definition)
-├── data/               # Local Storage Mapping (Simulated Data Lake)
-├── docker-compose.yaml # Infrastructure Configuration
-├── dashboard.py        # Streamlit Application
-├── api.py              # Backend Service
-└── requirements.txt    # Project Dependencies
-
-
-
-
 🚦 Deployment Guide
 ขั้นตอนการติดตั้งและเริ่มใช้งานระบบ:
 
@@ -89,3 +72,18 @@ python api.py
 Summary Endpoint: GET /api/v1/stock_summary
 
 Analysis Endpoint: GET /api/v1/sentiment_vs_price
+
+
+
+## 📂 Repository Map
+
+โครงสร้างไฟล์ภายในโปรเจกต์:
+
+```text
+.
+├── dags/               # Airflow Scripts (ETL Logic definition)
+├── data/               # Local Storage Mapping (Simulated Data Lake)
+├── docker-compose.yaml # Infrastructure Configuration
+├── dashboard.py        # Streamlit Application
+├── api.py              # Backend Service
+└── requirements.txt    # Project Dependencies
